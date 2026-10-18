@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Find MY PG</title>
+
+  <!-- Font Awesome for Eye Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body {
+      background: #e3f2fd;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #0d47a1;
+    }
+    label {
+      display: block;
+      margin: 1rem 0 .3rem;
+    }
+    input, select {
+      width: 100%;
+      padding: .7rem;
+      border: 1px solid #90caf9;
+      border-radius: 4px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .password-field {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #1976d2;
+      font-size: 1.1rem;
+      user-select: none;
+      outline: none;
+      background: transparent;
+      border: none;
+    }
+    button {
+      background: #1976d2;
+      color: #fff;
+      padding: .7rem 1.2rem;
+      border: none;
+      border-radius: 4px;
+      width: 100%;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: .5rem;
+    }
+    button:hover {
+      background: #0d47a1;
+    }
+    @media (max-width: 500px) {
+      .container { padding: 1rem; }
+      input, select, button { font-size: .92rem; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+  <div class="container">
+    <h1>FindMyPG-Register</h1>
+    <form id="registerForm" autocomplete="off" novalidate>
+      <label for="role">Register As:</label>
+      <select id="role" name="role" required>
+        <option value="">Select Role</option>
+        <option value="tenant">User</option>
+        <option value="owner">PG Owner</option>
+      </select>
+
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" required/>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required/>
+
+      <label for="password">Password:</label>
+      <div class="password-field">
+        <input type="password" id="password" name="password" required/>
+        <span class="toggle-password" tabindex="0" onclick="toggleVisibility('password', this)" aria-label="Show/Hide Password">
+          <i class="fa-solid fa-eye"></i>
+        </span>
+      </div>
+
+      <label for="confirmPassword">Confirm Password:</label>
+      <div class="password-field">
+        <input type="password" id="confirmPassword" name="confirmPassword" required/>
+        <span class="toggle-password" tabindex="0" onclick="toggleVisibility('confirmPassword', this)" aria-label="Show/Hide Confirm Password">
+          <i class="fa-solid fa-eye"></i>
+        </span>
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
+    <p style="text-align:center;">Already registered? <a href="login.html">Login here</a></p>
+  </div>
+</main>
+  <script>
+    function toggleVisibility(inputId, iconSpan) {
+      const input = document.getElementById(inputId);
+      const icon = iconSpan.querySelector('i');
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = "password";
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const role = document.getElementById('role').value;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (!role || !name || !email || !password || !confirmPassword) {
+        alert("Please fill in all fields.");
+        return;
+      }
+      if (name.length < 3) {
+        alert("Full name must be at least 3 characters long.");
+        return;
+      }
+      if (!email.endsWith('@gmail.com')) {
+        alert("Email must end with @gmail.com.");
+        return;
+      }
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters long.");
+        return;
+      }
+      if (password.toLowerCase() === "password" || password === "123456") {
+        alert("Please choose a stronger password.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+      // Save credentials in localStorage (avoid duplicate email + role)
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const existing = users.find(u => u.email === email && u.role === role);
+      if (existing) {
+        alert("An account with this email and role already exists. Please login or use a different email/role.");
+        return;
+      }
+      users.push({ role, name, email, password });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert("Registered successfully! Now login.");
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

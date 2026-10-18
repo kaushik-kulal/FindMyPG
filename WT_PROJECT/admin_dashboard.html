@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PG Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f6f9;
+    }
+    .sidebar {
+      height: 100vh;
+      background-color: #1a1a2e;
+      color: white;
+      position: fixed;
+      width: 240px;
+      padding-top: 20px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+    .sidebar h3 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+    .sidebar a {
+      display: block;
+      color: #ccc;
+      padding: 12px 20px;
+      text-decoration: none;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #16213e;
+      color: #fff;
+    }
+    .main-content {
+      margin-left: 240px;
+      padding: 20px;
+    }
+    .card {
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .card h5 {
+      font-size: 1.1rem;
+      color: #555;
+    }
+    .card p {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+    .btn-delete:hover {
+      background-color: #b02a37;
+    }
+    .toggle-sidebar-btn {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        left: -240px;
+      }
+      .sidebar.show {
+        left: 0;
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .toggle-sidebar-btn {
+        display: block;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 1101;
+        background-color: #1a1a2e;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-sidebar-btn d-md-none" onclick="toggleSidebar()">≡ Menu</button>
+
+  <div class="sidebar" id="sidebar">
+    <h3>PG Admin</h3>
+    <a href="" class="active">Dashboard</a>
+    <a href="manage_pg.html">Manage PGs</a>
+    <a href="bookings.html">Bookings</a>
+    <a href="messages.html">Messages</a>
+    <a href="settings.html">Settings</a>
+    <a href="logout.html">Logout</a>
+  </div>
+
+  <div class="main-content">
+    <h2 class="mb-4">Dashboard Overview</h2>
+    <div class="row g-4">
+      <div class="col-md-6 col-sm-12">
+        <div class="card p-3 text-center">
+          <h5>Total PGs</h5>
+          <p id="totalPGs">0</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12">
+        <div class="card p-3 text-center">
+          <h5>Total Bookings</h5>
+          <p id="totalBookings">0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-5">
+      <h4>Recently Added PGs</h4>
+      <div class="table-responsive">
+        <table class="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>PG Name</th>
+              <th>Location</th>
+              <th>Rent (₹)</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="pgTableBody">
+            <tr>
+              <td colspan="5" class="text-center text-muted">No PGs added yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+    }
+
+    function loadPGs() {
+      const pgList = JSON.parse(localStorage.getItem('pgList')) || [];
+      document.getElementById('totalPGs').textContent = pgList.length;
+
+      const tableBody = document.getElementById('pgTableBody');
+      if (pgList.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No PGs added yet.</td></tr>`;
+        return;
+      }
+
+      tableBody.innerHTML = '';
+      pgList.forEach((pg, index) => {
+        const row = `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${pg.name}</td>
+            <td>${pg.location}</td>
+            <td>₹${pg.rent}</td>
+            <td>
+              <button class="btn-delete" onclick="deletePG(${index})">Delete</button>
+            </td>
+          </tr>`;
+        tableBody.innerHTML += row;
+      });
+    }
+
+    function deletePG(index) {
+      const pgList = JSON.parse(localStorage.getItem('pgList')) || [];
+      if (confirm(`Are you sure you want to delete "${pgList[index].name}"?`)) {
+        pgList.splice(index, 1);
+        localStorage.setItem('pgList', JSON.stringify(pgList));
+        loadPGs();
+      }
+    }
+
+    function loadDashboardCounts() {
+      const pgList = JSON.parse(localStorage.getItem('pgList')) || [];
+      const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+
+      document.getElementById('totalPGs').textContent = pgList.length;
+      document.getElementById('totalBookings').textContent = bookings.length;
+    }
+
+    window.onload = function () {
+      loadPGs();
+      loadDashboardCounts();
+    };
+  </script>
+</body>
+</html>

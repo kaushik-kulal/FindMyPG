@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Find MY PG</title>
+
+  <!-- Font Awesome for Eye Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body { 
+      background: #e3f2fd;
+      font-family: Arial, sans-serif;
+    }
+    .container { 
+      max-width: 350px; 
+      margin: 2rem auto; 
+      padding: 2rem; 
+      background: #fff; 
+      border-radius: 8px; 
+      box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+    }
+    h1 { 
+      text-align: center; 
+      margin-bottom: 1.5rem; 
+      color: #0d47a1;
+    }
+    label { 
+      display: block; 
+      margin: 1rem 0 .3rem; 
+    }
+    input, select {
+      width: 100%; 
+      padding: .7rem; 
+      border: 1px solid #64b5f6; 
+      border-radius: 4px; 
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .password-field {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #1976d2;
+      font-size: 1.1rem;
+      user-select: none;
+      outline: none;
+      background: transparent;
+      border: none;
+    }
+    button { 
+      background: #1565c0; 
+      color: #fff; 
+      padding: .7rem 1.2rem; 
+      border: none; 
+      border-radius: 4px; 
+      width: 100%; 
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover { 
+      background: #1976d2;
+    }
+    a {
+      color: #1976d2;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 500px) {
+      .container { padding: 1rem; }
+      input, select, button { font-size: .92rem; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+  <div class="container">
+    <h1>FindMyPG Login</h1>
+    <form id="loginForm" autocomplete="off" novalidate>
+      <label for="role">Login As:</label>
+      <select id="role" name="role" required>
+        <option value="">Select Role</option>
+        <option value="tenant">User</option>
+        <option value="owner">PG Owner</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required/>
+
+      <label for="password">Password:</label>
+      <div class="password-field">
+        <input type="password" id="password" name="password" required/>
+        <span class="toggle-password" tabindex="0" onclick="toggleVisibility('password', this)" aria-label="Show/Hide Password">
+          <i class="fa-solid fa-eye"></i>
+        </span>
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+    <p style="text-align:center;">Don't have an account? <a href="register.html">Register here</a></p>
+  </div>
+  </main>
+
+  <script>
+    // 🔹 Password show/hide toggle
+    function toggleVisibility(inputId, iconSpan) {
+      const input = document.getElementById(inputId);
+      const icon = iconSpan.querySelector('i');
+      if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = "password";
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
+    // 🔹 Ensure default admin user exists
+    let storedUsers = JSON.parse(localStorage.getItem('users') || '[]');
+    if (!storedUsers.some(u => u.role === 'admin' && u.email === 'admin@gmail.com')) {
+      storedUsers.push({ email: 'admin@gmail.com', password: '123', role: 'admin', name: 'Administrator' });
+      localStorage.setItem('users', JSON.stringify(storedUsers));
+    }
+
+    // 🔹 Login form logic
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const role = document.getElementById('role').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!role || !email || !password) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const usersList = JSON.parse(localStorage.getItem('users') || '[]');
+      const user = usersList.find(u => u.email === email && u.password === password && u.role === role);
+
+      if (user) {
+        localStorage.setItem('currentUser', JSON.stringify({ email: user.email, role: user.role, name: user.name || '' }));
+
+        if (role === 'tenant') {
+          window.location.href = 'user_dashboard.html';
+        } else if (role === 'owner') {
+          window.location.href = 'owner_dashboard.html';
+        } else if (role === 'admin') {
+          window.location.href = 'admin_dashboard.html';
+        } else {
+          alert('Unknown role selected.');
+        }
+      } else {
+        alert('Invalid credentials or role.');
+      }5
+    });
+  </script>
+</body>
+</html>

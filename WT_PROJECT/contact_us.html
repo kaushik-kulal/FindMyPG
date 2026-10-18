@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Support - FindMyPG | Get Help & Assistance</title>
+    <meta name="description" content="Get comprehensive support for your PG accommodation needs. Contact FindMyPG through multiple channels - live chat, phone, email, or visit our help center for instant assistance.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+:root {
+  --color-primary: #2563EB;
+  --color-primary-50: #EFF6FF;
+  --color-primary-100: #DBEAFE;
+  --color-secondary: #1E40AF;
+
+  /* Updated for accessibility */
+  --color-accent: #B45309; /* Accessible amber */
+  --color-accent-50: #FFFBEB;
+
+  --color-success: #047857; /* Accessible emerald */
+  --color-success-50: #ECFDF5;
+
+  --color-background: #FAFBFC;
+  --color-surface: #F8FAFC;
+  --color-surface-100: #F1F5F9;
+  --color-surface-200: #E2E8F0;
+
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #4B5563;
+  --color-text-tertiary: #6B7280;
+
+  --color-error: #DC2626;
+  --color-error-50: #FEF2F2;
+  --color-error-600: #B91C1C;
+
+  --color-border: #E5E7EB;
+  --color-border-light: #F3F4F6;
+
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-deep: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+  --transition-fast: 200ms ease-out;
+  --transition-normal: 300ms ease-out;
+}
+
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* ---------- HEADER STYLES ---------- */
+        header { 
+          background: rgba(255, 255, 255, 0.98);
+          backdrop-filter: blur(10px);
+          padding: 1rem 2rem;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+
+        .header-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .logo-section {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .logo { 
+          height: 50px;
+          width: 50px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: bold;
+          font-size: 1.5rem;
+        }
+
+        .logo-text {
+          font-size: 1.5rem;
+          font-weight: bold;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        nav {
+          display: none;
+          gap: 2rem;
+        }
+
+        nav a { 
+          color: #333;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          position: relative;
+          padding: 0.5rem 0;
+        }
+
+        nav a::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+          width: 100%;
+        }
+
+        nav a:hover { 
+          color: #667eea;
+        }
+
+        .mobile-menu {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          cursor: pointer;
+        }
+
+        .mobile-menu span {
+          width: 25px;
+          height: 3px;
+          background: #333;
+          border-radius: 3px;
+          transition: all 0.3s ease;
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 767px) {
+          nav {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            gap: 0;
+          }
+
+          nav.active {
+            display: flex;
+          }
+
+          nav a {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+          }
+
+          nav a:last-child {
+            border-bottom: none;
+          }
+        }
+
+        /* Desktop Navigation */
+        @media (min-width: 768px) {
+          nav {
+            display: flex;
+          }
+
+          .mobile-menu {
+            display: none;
+          }
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-secondary);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-surface);
+            color: var(--color-text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--color-border);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-surface-100);
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            border: 1px solid var(--color-border-light);
+            box-shadow: var(--shadow-subtle);
+            transition: all var(--transition-normal);
+            padding: 1.5rem;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-medium);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--color-border);
+            border-radius: 0.75rem;
+            background-color: white;
+            color: var(--color-text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: all var(--transition-normal);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+        }
+
+        .input-field::placeholder {
+            color: #6B7280;
+            opacity: 1;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @supports not (background-clip: text) {
+            .text-gradient {
+                color: var(--color-primary);
+                background: none;
+                -webkit-text-fill-color: initial;
+            }
+        }
+
+        .hero {
+            background: linear-gradient(to bottom right, var(--color-primary-50), var(--color-accent-50));
+            position: relative;
+            padding: 5rem 1rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: #374151;
+            line-height: 1.75;
+        }
+
+        @media (min-width: 768px) {
+            .hero h1 {
+                font-size: 3.75rem;
+            }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .grid.grid-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        section {
+            padding: 4rem 1rem;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #4B5563;
+            text-align: center;
+            max-width: 42rem;
+            margin: 0 auto 3rem;
+        }
+
+        .icon-box {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .icon-box.primary { background-color: var(--color-primary); }
+        .icon-box.accent { background-color: var(--color-accent); }
+        .icon-box.success { background-color: var(--color-success); }
+        .icon-box.secondary { background-color: var(--color-secondary); }
+
+        .support-card {
+            text-align: center;
+        }
+
+        .support-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .support-card p {
+            color: #4B5563;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .support-card .meta {
+            font-size: 0.75rem;
+            color: #6B7280;
+            margin-top: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .form-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .form-actions {
+                flex-direction: row;
+            }
+        }
+
+        .emergency-section {
+            background-color: var(--color-error-50);
+            border-top: 4px solid var(--color-error);
+            text-align: center;
+        }
+
+        .emergency-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1F2937;
+        }
+
+        .emergency-section p {
+            font-size: 1.125rem;
+            color: #374151;
+            margin-bottom: 1.5rem;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .emergency-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        @media (min-width: 640px) {
+            .emergency-buttons {
+                flex-direction: row;
+            }
+        }
+
+        .emergency-btn {
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all var(--transition-normal);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .emergency-btn.primary {
+            background-color: var(--color-error);
+            color: white;
+        }
+
+        .emergency-btn.primary:hover {
+            background-color: var(--color-error-600);
+        }
+
+        .emergency-btn.secondary {
+            background-color: transparent;
+            color: #991B1B;
+            border: 2px solid var(--color-error);
+        }
+
+        .emergency-btn.secondary:hover {
+            background-color: var(--color-error);
+            color: white;
+        }
+
+        .emergency-meta {
+            font-size: 0.875rem;
+            color: #4B5563;
+            margin-top: 1rem;
+        }
+
+        .bg-white { background-color: white; }
+        .bg-surface { background-color: var(--color-surface); }
+        .flex-1 { flex: 1; }
+
+        textarea {
+            resize: vertical;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+          <div class="logo-section">
+            <div class="logo">FM</div>
+            <div class="logo-text">FindMyPG</div>
+          </div>
+          <nav id="mainNav">
+            <a href="index.html">Home</a>
+            <a href="About.html">About</a>
+            <a href="contact_us.html">Contact</a>
+            <a href="faq.html">FAQ</a>
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+          </nav>
+          <div class="mobile-menu" id="mobileMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>Contact & <span class="text-gradient">Support</span></h1>
+                <p>We're here to help you find your perfect PG accommodation. Get instant support through multiple channels or explore our comprehensive help resources.</p>
+            </div>
+        </section>
+
+        <section class="bg-white">
+            <div class="container">
+                <h2 class="section-title">Get Instant Help</h2>
+                <p class="section-subtitle">Choose your preferred way to connect with our support team</p>
+
+                <div class="grid grid-4">
+                    <div class="card support-card">
+                        <div class="icon-box primary"><i class="fas fa-comments"></i></div>
+                        <h3>Live Chat</h3>
+                        <p>Instant responses from our support team</p>
+                        <button onclick="openLiveChat()" class="btn-primary">Start Chat</button>
+                        <p class="meta">Available 24/7</p>
+                    </div>
+
+                    <div class="card support-card">
+                        <div class="icon-box accent"><i class="fas fa-phone"></i></div>
+                        <h3>Phone Support</h3>
+                        <p>Speak directly with our experts</p>
+                        <a href="tel:+911800123456" class="btn-primary" style="background-color: var(--color-accent);">Call Now</a>
+                        <p class="meta">Mon-Sun: 9 AM - 9 PM</p>
+                    </div>
+
+                    <div class="card support-card">
+                        <div class="icon-box success"><i class="fas fa-envelope"></i></div>
+                        <h3>Email Support</h3>
+                        <p>Detailed assistance via email</p>
+                        <a href="mailto:support@findmypg.com" class="btn-primary" style="background-color: var(--color-success);">Send Email</a>
+                        <p class="meta">Response within 2 hours</p>
+                    </div>
+
+                    <div class="card support-card">
+                        <div class="icon-box secondary"><i class="fas fa-question-circle"></i></div>
+                        <h3>Help Center</h3>
+                        <p>Self-service support resources</p>
+                        <a href="faq.html" class="btn-primary" style="background-color: var(--color-secondary);">Browse FAQ</a>
+                        <p class="meta">Instant answers</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-surface">
+            <div class="container" style="max-width: 56rem;">
+                <h2 class="section-title">Send Us a Message</h2>
+                <p class="section-subtitle">Have a specific question or need detailed assistance? Fill out the form below and we'll get back to you promptly.</p>
+
+                <div class="card">
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" name="name" required class="input-field" placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required class="input-field" placeholder="your.email@example.com">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" class="input-field" placeholder="+91 98765 43210">
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Inquiry Type *</label>
+                                <select id="category" name="category" required class="input-field">
+                                    <option value="">Select inquiry type</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="booking">Booking Support</option>
+                                    <option value="property">Property Related</option>
+                                    <option value="payment">Payment Issues</option>
+                                    <option value="technical">Technical Support</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <input type="text" id="subject" name="subject" required class="input-field" placeholder="Brief description">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="6" required class="input-field" placeholder="Detailed information..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary flex-1">
+                                <i class="fas fa-paper-plane"></i>
+                                Send Message
+                            </button>
+                            <button type="reset" class="btn-secondary flex-1">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="emergency-section">
+            <div class="container" style="max-width: 56rem;">
+                <div class="icon-box" style="background-color: var(--color-error);">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h2>Emergency Support</h2>
+                <p>For urgent safety concerns, security issues, or emergency situations requiring immediate attention</p>
+                <div class="emergency-buttons">
+                    <a href="tel:+919876543210" class="emergency-btn primary">
+                        <i class="fas fa-phone"></i>
+                        Emergency: 9876543210
+                    </a>
+                    <a href="mailto:emergency@findmypg.com" class="emergency-btn secondary">
+                        <i class="fas fa-envelope"></i>
+                        Emergency Email
+                    </a>
+                </div>
+                <p class="emergency-meta">Available 24/7 • Response within 15 minutes</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mainNav = document.getElementById('mainNav');
+
+        mobileMenu.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for contacting us! We will get back to you within 24 hours.');
+            this.reset();
+        });
+
+        function openLiveChat() {
+            alert('Live chat feature coming soon!');
+        }
+    </script>
+    <div id="footer"></div>
+    <script>
+      // Load the footer dynamically
+      fetch("footer.html")
+        .then(response => response.text())
+        .then(data => {
+          document.getElementById("footer").innerHTML = data;
+        })
+        .catch(err => console.error("Error loading footer:", err));
+    </script>
+
+</body>
+</html>

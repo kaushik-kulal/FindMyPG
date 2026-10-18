@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - FindMyPG</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            height: 50px;
+            width: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            flex: 1;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card h2 i {
+            color: #667eea;
+        }
+
+        .booking-summary {
+            margin-bottom: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .summary-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .pg-details {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .pg-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .pg-location {
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .price-breakdown {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+
+        .total-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            border-top: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .payment-options {
+            margin-top: 1.5rem;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .payment-method.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .payment-method input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+            accent-color: #667eea;
+        }
+
+        .payment-method-info {
+            flex: 1;
+        }
+
+        .method-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .method-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .payment-method i {
+            font-size: 1.5rem;
+            color: #667eea;
+            margin-right: 1rem;
+        }
+
+        .terms {
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .terms input[type="checkbox"] {
+            margin-top: 0.3rem;
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+
+        .terms label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .terms a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .pay-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .pay-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .pay-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            color: #10b981;
+            font-size: 0.9rem;
+        }
+
+        .security-badge i {
+            color: #10b981;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            padding: 0.7rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-3px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .modal-content i {
+            font-size: 4rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .modal-content h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .modal-content p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .modal-content {
+                margin: 1rem;
+                padding: 2rem;
+            }
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">FM</div>
+            <div class="logo-text">FindMyPG - Payment</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="pg-details.html" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Details
+        </a>
+
+        <div class="payment-grid">
+            <!-- Booking Summary -->
+            <div class="card">
+                <h2>
+                    <i class="fa-solid fa-file-invoice"></i>
+                    Booking Summary
+                </h2>
+
+                <div class="pg-details">
+                    <div class="pg-name" id="pgName">Sun PG Residency</div>
+                    <div class="pg-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span id="pgLocation">Sector 5, Bangalore</span>
+                    </div>
+                </div>
+
+                <div class="booking-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">Guest Name</span>
+                        <span class="summary-value" id="guestName">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Move-in Date</span>
+                        <span class="summary-value" id="moveInDate">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Occupancy Type</span>
+                        <span class="summary-value" id="occupancyType">-</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Duration</span>
+                        <span class="summary-value">1 Month (Advance)</span>
+                    </div>
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Monthly Rent</span>
+                        <span id="monthlyRent">₹8,500</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Security Deposit</span>
+                        <span id="securityDeposit">₹8,500</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Service Charge</span>
+                        <span>₹500</span>
+                    </div>
+                    <div class="price-row total-amount">
+                        <span>Total Amount</span>
+                        <span id="totalAmount">₹17,500</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Options -->
+            <div class="card">
+                <h2>
+                    <i class="fa-solid fa-credit-card"></i>
+                    Payment Method
+                </h2>
+
+                <div class="payment-options">
+                    <label class="payment-method selected">
+                        <input type="radio" name="payment" value="razorpay" checked>
+                        <i class="fa-solid fa-wallet"></i>
+                        <div class="payment-method-info">
+                            <div class="method-name">Razorpay Gateway</div>
+                            <div class="method-desc">UPI, Cards, Net Banking, Wallets</div>
+                        </div>
+                    </label>
+
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="paytm">
+                        <i class="fa-brands fa-cc-paypal"></i>
+                        <div class="payment-method-info">
+                            <div class="method-name">Paytm</div>
+                            <div class="method-desc">Quick payment via Paytm</div>
+                        </div>
+                    </label>
+
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="offline">
+                        <i class="fa-solid fa-money-bill"></i>
+                        <div class="payment-method-info">
+                            <div class="method-name">Pay at PG</div>
+                            <div class="method-desc">Pay directly to owner on arrival</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="terms">
+                    <input type="checkbox" id="agreeTerms">
+                    <label for="agreeTerms">
+                        I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Cancellation Policy</a>
+                    </label>
+                </div>
+
+                <button class="pay-button" id="payButton" disabled>
+                    <i class="fa-solid fa-lock"></i>
+                    Proceed to Pay ₹<span id="payAmount">17,500</span>
+                </button>
+
+                <div class="security-badge">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>100% Secure Payment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-circle-check"></i>
+            <h2>Payment Successful!</h2>
+            <p>Your booking has been confirmed. You will receive a confirmation email shortly with all the details.</p>
+            <p><strong>Payment ID:</strong> <span id="paymentId">-</span></p>
+            <button class="modal-btn" onclick="goToDashboard()">Go to Dashboard</button>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 FindMyPG. All rights reserved. | Making PG search simple and secure.
+    </footer>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Get booking data from URL or localStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingData = JSON.parse(sessionStorage.getItem('bookingData')) || {
+            pgName: urlParams.get('pgName') || 'Sun PG Residency',
+            pgLocation: urlParams.get('location') || 'Sector 5, Bangalore',
+            rent: parseInt(urlParams.get('rent')) || 8500,
+            guestName: urlParams.get('name') || 'Guest',
+            moveInDate: urlParams.get('moveIn') || '-',
+            occupancy: urlParams.get('occupancy') || '-'
+        };
+
+        // Calculate amounts
+        const monthlyRent = bookingData.rent;
+        const securityDeposit = monthlyRent;
+        const serviceCharge = 500;
+        const totalAmount = monthlyRent + securityDeposit + serviceCharge;
+
+        // Display booking details
+        function loadBookingDetails() {
+            document.getElementById('pgName').textContent = bookingData.pgName;
+            document.getElementById('pgLocation').textContent = bookingData.pgLocation;
+            document.getElementById('guestName').textContent = bookingData.guestName;
+            document.getElementById('moveInDate').textContent = formatDate(bookingData.moveInDate);
+            document.getElementById('occupancyType').textContent = formatOccupancy(bookingData.occupancy);
+            document.getElementById('monthlyRent').textContent = '₹' + monthlyRent.toLocaleString();
+            document.getElementById('securityDeposit').textContent = '₹' + securityDeposit.toLocaleString();
+            document.getElementById('totalAmount').textContent = '₹' + totalAmount.toLocaleString();
+            document.getElementById('payAmount').textContent = totalAmount.toLocaleString();
+        }
+
+        function formatDate(dateString) {
+            if (!dateString || dateString === '-') return '-';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function formatOccupancy(occupancy) {
+            const map = {
+                'single': 'Single Sharing',
+                'double': 'Double Sharing',
+                'triple': 'Triple Sharing'
+            };
+            return map[occupancy] || occupancy;
+        }
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input[type="radio"]').checked = true;
+            });
+        });
+
+        // Terms checkbox
+        document.getElementById('agreeTerms').addEventListener('change', function() {
+            document.getElementById('payButton').disabled = !this.checked;
+        });
+
+        // Razorpay configuration
+        const razorpayOptions = {
+            "key": "rzp_test_1DP5mmOlF5G5ag", // Replace with your Razorpay key
+            "amount": totalAmount * 100, // Amount in paise
+            "currency": "INR",
+            "name": "FindMyPG",
+            "description": bookingData.pgName + " - Booking Advance",
+            "image": "https://via.placeholder.com/100x100/667eea/ffffff?text=FM",
+            "handler": function (response) {
+                // Payment success
+                document.getElementById('paymentId').textContent = response.razorpay_payment_id;
+                document.getElementById('successModal').classList.add('active');
+                
+                // Save booking to localStorage
+                const bookings = JSON.parse(localStorage.getItem('myBookings')) || [];
+                bookings.push({
+                    ...bookingData,
+                    paymentId: response.razorpay_payment_id,
+                    amount: totalAmount,
+                    status: 'confirmed',
+                    bookingDate: new Date().toISOString()
+                });
+                localStorage.setItem('myBookings', JSON.stringify(bookings));
+                
+                // Clear session data
+                sessionStorage.removeItem('bookingData');
+            },
+            "prefill": {
+                "name": bookingData.guestName,
+                "email": "user@example.com",
+                "contact": "9999999999"
+            },
+            "theme": {
+                "color": "#667eea"
+            }
+        };
+
+        // Pay button click
+        document.getElementById('payButton').addEventListener('click', function() {
+            const selectedMethod = document.querySelector('input[name="payment"]:checked').value;
+            
+            if (selectedMethod === 'razorpay') {
+                // Open Razorpay
+                const rzp = new Razorpay(razorpayOptions);
+                rzp.open();
+            } else if (selectedMethod === 'offline') {
+                // Simulate offline payment
+                document.getElementById('paymentId').textContent = 'OFFLINE-' + Date.now();
+                document.getElementById('successModal').classList.add('active');
+                
+                const bookings = JSON.parse(localStorage.getItem('myBookings')) || [];
+                bookings.push({
+                    ...bookingData,
+                    paymentId: 'OFFLINE-' + Date.now(),
+                    amount: totalAmount,
+                    status: 'pending',
+                    bookingDate: new Date().toISOString(),
+                    paymentMethod: 'offline'
+                });
+                localStorage.setItem('myBookings', JSON.stringify(bookings));
+                sessionStorage.removeItem('bookingData');
+            } else {
+                alert('This payment method is coming soon!');
+            }
+        });
+
+        function goToDashboard() {
+            window.location.href = 'user_dashboard.html';
+        }
+
+        // Close modal on outside click
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                goToDashboard();
+            }
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', loadBookingDetails);
+    </script>
+</body>
+</html>

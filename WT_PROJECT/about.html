@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About FindMyPG | Your Trusted PG Partner</title>
+  <meta name="description" content="Learn about FindMyPG's mission to transform PG accommodation search with trust, transparency, and technology.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<style>
+  /* ---------- Base ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #2563eb;
+  --secondary: #1e40af;
+  --accent: #f59e0b;
+  --success: #10b981;
+  --background: #fafbfc;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border-light: #f3f4f6;
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-deep: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  background-color: var(--background);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* ---------- HEADER STYLES ---------- */
+header { 
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo { 
+  height: 50px;
+  width: 50px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a { 
+  color: #333;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+nav a:hover { 
+  color: #667eea;
+}
+
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.mobile-menu span {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background: linear-gradient(to bottom right, #eff6ff, #fffbeb);
+  text-align: center;
+  padding: 5rem 1rem;
+  position: relative;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+}
+
+/* ---------- Mission ---------- */
+.mission {
+  background: #fff;
+  padding: 5rem 1.5rem;
+}
+
+.mission-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1100px;
+  margin: auto;
+  gap: 3rem;
+  align-items: center;
+}
+
+.mission-text h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.mission-text p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.mission-points {
+  list-style: none;
+  padding: 0;
+}
+
+.mission-points li {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.mission-points i {
+  color: var(--success);
+  margin-right: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.mission-image img {
+  width: 100%;
+  height: 380px;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: var(--shadow-deep);
+}
+
+/* ---------- How It Works ---------- */
+.how-it-works {
+  background: #fff;
+  padding: 5rem 1.5rem;
+  text-align: center;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 3rem;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.step {
+  background: #fff;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.3s ease;
+}
+
+.step:hover {
+  box-shadow: var(--shadow-deep);
+  transform: translateY(-4px);
+}
+
+.icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.8rem;
+}
+
+.icon-circle.primary { background: var(--primary); }
+.icon-circle.accent { background: var(--accent); }
+.icon-circle.success { background: var(--success); }
+
+.step h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.step p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* ---------- CTA ---------- */
+.cta {
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  color: #fff;
+  text-align: center;
+  padding: 5rem 1rem;
+}
+
+.cta h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.cta p {
+  color: #dbeafe;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.9rem 2rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-white {
+  background: #fff;
+  color: var(--primary);
+}
+
+.btn-white:hover {
+  background: #eff6ff;
+}
+
+.btn-outline {
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.btn-outline:hover {
+  background: #fff;
+  color: var(--primary);
+}
+
+
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .mission-container {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-image {
+    order: -1;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0;
+  }
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    gap: 0;
+  }
+
+  nav.active {
+    display: flex;
+  }
+
+  nav a {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+}
+
+</style>
+</head>
+<body>
+
+ <header>
+    <div class="header-content">
+      <div class="logo-section">
+        <div class="logo">FM</div>
+        <div class="logo-text">FindMyPG</div>
+      </div>
+      <nav id="mainNav">
+        <a href="index.html">Home</a>
+        <a href="About.html">About</a>
+        <a href="contact_us.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+      </nav>
+      <div class="mobile-menu" id="mobileMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>About <span class="gradient-text">FindMyPG</span></h1>
+      <p>Transforming the way people find their perfect paying guest accommodation through trust, transparency, and technology.</p>
+    </div>
+  </section>
+
+  <!-- Mission Section -->
+  <section class="mission">
+    <div class="mission-container">
+      <div class="mission-text">
+        <h2>Our Mission</h2>
+        <p>We believe finding the right PG shouldn't be stressful. Our mission is to create a trusted ecosystem where students, working professionals, and migrants can discover their perfect "home away from home" with confidence and ease.</p>
+
+        <ul class="mission-points">
+          <li><i class="fa-solid fa-circle-check"></i> Verified properties with transparent information</li>
+          <li><i class="fa-solid fa-circle-check"></i> Safe and secure accommodation matching</li>
+          <li><i class="fa-solid fa-circle-check"></i> Community-focused living experiences</li>
+        </ul>
+      </div>
+
+      <div class="mission-image">
+        <img src="https://images.unsplash.com/photo-1597479553451-25c3ea3e39a5?q=80&w=800&auto=format&fit=crop" 
+             alt="Modern comfortable PG accommodation">
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-it-works">
+    <div class="section-header">
+      <h2>How FindMyPG Works</h2>
+      <p>Our simple, transparent process makes finding your perfect PG effortless.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="icon-circle primary"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <h3>Search & Filter</h3>
+        <p>Use our advanced search to find PGs based on location, budget, and amenities. Discover exactly what you're looking for.</p>
+      </div>
+
+      <div class="step">
+        <div class="icon-circle accent"><i class="fa-solid fa-circle-check"></i></div>
+        <h3>Verify & Compare</h3>
+        <p>Browse verified listings with authentic photos, amenities, and transparent pricing. Compare options side by side.</p>
+      </div>
+
+      <div class="step">
+        <div class="icon-circle success"><i class="fa-solid fa-house-user"></i></div>
+        <h3>Book & Move In</h3>
+        <p>Schedule visits, complete secure booking with our protection guarantee, and move in with peace of mind.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="cta-content">
+      <h2>Ready to Find Your Perfect PG?</h2>
+      <p>Join thousands of satisfied tenants who found their ideal home through FindMyPG.</p>
+      <div class="cta-buttons">
+        <a href="index.html" class="btn btn-white">Start Your Search</a>
+        <a href="contact_us.html" class="btn btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mainNav = document.getElementById('mainNav');
+
+    mobileMenu.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+  </script>
+  <div id="footer"></div>
+<script>
+  // Load the footer dynamically
+  fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    })
+    .catch(err => console.error("Error loading footer:", err));
+</script>
+
+</body>
+</html>

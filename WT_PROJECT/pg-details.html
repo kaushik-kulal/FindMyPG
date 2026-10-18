@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PG Details - FindMyPG</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            height: 50px;
+            width: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .back-btn {
+            background: #f8f9fa;
+            color: #333;
+            padding: 0.7rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            border: 2px solid #e0e0e0;
+        }
+
+        .back-btn:hover {
+            background: #e9ecef;
+            transform: translateX(-3px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem 2rem;
+        }
+
+        .image-gallery {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            animation: slideDown 0.5s ease;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .thumbnail-strip {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            overflow-x: auto;
+        }
+
+        .thumbnail {
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .pg-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .pg-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .pg-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .price-tag small {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin: 2rem 0 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: #667eea;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .detail-item i {
+            color: #667eea;
+            font-size: 1.3rem;
+            width: 30px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .detail-value {
+            color: #666;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.8rem;
+            background: #f0f4ff;
+            border-radius: 10px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .amenity-item i {
+            font-size: 1.2rem;
+        }
+
+        .description {
+            color: #666;
+            line-height: 1.8;
+            margin-top: 1rem;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 100px;
+            animation: fadeInUp 0.5s ease 0.2s both;
+        }
+
+        .booking-card h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .book-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .contact-info {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.5rem 0;
+            color: #666;
+        }
+
+        .contact-item i {
+            color: #667eea;
+            width: 25px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem 1rem;
+            }
+
+            .main-image {
+                height: 300px;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-card {
+                position: static;
+            }
+
+            .pg-title {
+                font-size: 1.5rem;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .amenities-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">FM</div>
+                <div class="logo-text">FindMyPG</div>
+            </div>
+            <a href="search.html" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Search
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="image-gallery">
+            <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=1200&h=500&fit=crop" 
+                 alt="PG Main Image" 
+                 class="main-image" 
+                 id="mainImage">
+            <div class="thumbnail-strip" id="thumbnailStrip"></div>
+        </div>
+
+        <div class="content-grid">
+            <div class="info-section">
+                <div class="pg-header">
+                    <h1 class="pg-title" id="pgName">Loading...</h1>
+                    <div class="pg-location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span id="pgLocation">Loading...</span>
+                    </div>
+                </div>
+
+                <div class="price-tag">
+                    ₹<span id="pgRent">0</span> <small>/month</small>
+                </div>
+
+                <h3 class="section-title">
+                    <i class="fa-solid fa-circle-info"></i>
+                    Property Details
+                </h3>
+                <div class="details-grid" id="detailsGrid"></div>
+
+                <h3 class="section-title">
+                    <i class="fa-solid fa-check-circle"></i>
+                    Amenities & Facilities
+                </h3>
+                <div class="amenities-grid" id="amenitiesList"></div>
+
+                <h3 class="section-title">
+                    <i class="fa-solid fa-file-lines"></i>
+                    Description
+                </h3>
+                <p class="description" id="pgDescription">
+                    No description available.
+                </p>
+            </div>
+
+            <div class="booking-card">
+                <h3>Book Your Stay</h3>
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label for="fullName">
+                            <i class="fa-solid fa-user"></i> Full Name
+                        </label>
+                        <input type="text" id="fullName" placeholder="Enter your name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fa-solid fa-envelope"></i> Email
+                        </label>
+                        <input type="email" id="email" placeholder="your.email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">
+                            <i class="fa-solid fa-phone"></i> Phone Number
+                        </label>
+                        <input type="tel" id="phone" placeholder="+91 98765 43210" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="moveIn">
+                            <i class="fa-solid fa-calendar"></i> Move-in Date
+                        </label>
+                        <input type="date" id="moveIn" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="occupancy">
+                            <i class="fa-solid fa-bed"></i> Occupancy Type
+                        </label>
+                        <select id="occupancy" required>
+                            <option value="">Select</option>
+                            <option value="single">Single Sharing</option>
+                            <option value="double">Double Sharing</option>
+                            <option value="triple">Triple Sharing</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">
+                            <i class="fa-solid fa-message"></i> Additional Requirements (Optional)
+                        </label>
+                        <textarea id="message" placeholder="Any special requirements or questions..."></textarea>
+                    </div>
+
+                    <button type="submit" class="book-btn">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        Book & Proceed to Payment
+                    </button>
+                </form>
+
+                <div class="contact-info" id="contactInfo"></div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <script>
+        const amenityIcons = {
+            "wifi": "wifi",
+            "ac": "snowflake",
+            "meals": "utensils",
+            "laundry": "shirt",
+            "parking": "square-parking",
+            "tv": "tv",
+            "security": "shield-halved",
+            "cctv": "video",
+            "gym": "dumbbell"
+        };
+
+        let currentPG = null;
+
+        // Helper function to get location string
+        function getLocationString(pg) {
+            const parts = [];
+            if (pg.address && pg.address.trim()) parts.push(pg.address.trim());
+            if (pg.city && pg.city.trim()) parts.push(pg.city.trim());
+            if (pg.location && pg.location.trim() && !parts.includes(pg.location.trim())) {
+                parts.push(pg.location.trim());
+            }
+            return parts.length > 0 ? parts.join(', ') : 'Location not specified';
+        }
+
+        function loadPGDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pgIndex = urlParams.get('index');
+            
+            const pgListings = JSON.parse(localStorage.getItem('pgListings') || '[]');
+            
+            if (pgIndex === null || !pgListings[pgIndex]) {
+                document.querySelector('.container').innerHTML = `
+                    <div style="text-align: center; padding: 4rem; background: white; border-radius: 20px;">
+                        <i class="fa-solid fa-exclamation-triangle" style="font-size: 4rem; color: #ef4444; margin-bottom: 1rem;"></i>
+                        <h2>PG Not Found</h2>
+                        <p style="color: #666; margin: 1rem 0;">The PG listing you're looking for doesn't exist.</p>
+                        <a href="search.html" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.8rem 2rem; border-radius: 10px; text-decoration: none; display: inline-block; margin-top: 1rem;">Back to Search</a>
+                    </div>
+                `;
+                return;
+            }
+
+            currentPG = pgListings[pgIndex];
+
+            document.getElementById('pgName').textContent = currentPG.name || 'Unnamed PG';
+            document.getElementById('pgLocation').textContent = getLocationString(currentPG);
+            document.getElementById('pgRent').textContent = parseInt(currentPG.rent || 0).toLocaleString();
+
+            if (currentPG.images && currentPG.images.length > 0) {
+                document.getElementById('mainImage').src = currentPG.images[0];
+                
+                const thumbnailStrip = document.getElementById('thumbnailStrip');
+                thumbnailStrip.innerHTML = currentPG.images.map((img, idx) => 
+                    `<img src="${img}" class="thumbnail ${idx === 0 ? 'active' : ''}" onclick="changeImage(this, '${img}')">`
+                ).join('');
+            } else {
+                document.getElementById('thumbnailStrip').style.display = 'none';
+            }
+
+            const detailsGrid = document.getElementById('detailsGrid');
+            detailsGrid.innerHTML = `
+                <div class="detail-item">
+                    <i class="fa-solid fa-users"></i>
+                    <div>
+                        <div class="detail-label">Gender</div>
+                        <div class="detail-value">${currentPG.gender || 'Any'}</div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-door-open"></i>
+                    <div>
+                        <div class="detail-label">Room Type</div>
+                        <div class="detail-value">${currentPG.roomType || 'N/A'}</div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <div>
+                        <div class="detail-label">Contact</div>
+                        <div class="detail-value">${currentPG.contact || 'Not provided'}</div>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-map-pin"></i>
+                    <div>
+                        <div class="detail-label">Pincode</div>
+                        <div class="detail-value">${currentPG.pincode || 'N/A'}</div>
+                    </div>
+                </div>
+            `;
+
+            const amenitiesList = document.getElementById('amenitiesList');
+            if (currentPG.amenities && currentPG.amenities.length > 0) {
+                amenitiesList.innerHTML = currentPG.amenities.map(amenity => `
+                    <div class="amenity-item">
+                        <i class="fa-solid fa-${amenityIcons[amenity.toLowerCase()] || 'check'}"></i>
+                        <span>${amenity}</span>
+                    </div>
+                `).join('');
+            } else {
+                amenitiesList.innerHTML = '<p style="color: #666;">No amenities listed</p>';
+            }
+
+            if (currentPG.description) {
+                document.getElementById('pgDescription').textContent = currentPG.description;
+            }
+
+            document.getElementById('contactInfo').innerHTML = `
+                <h4 style="margin-bottom: 1rem; color: #333;">Contact Owner</h4>
+                <div class="contact-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>${currentPG.contact || 'Not provided'}</span>
+                </div>
+                ${currentPG.email ? `
+                <div class="contact-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>${currentPG.email}</span>
+                </div>
+                ` : ''}
+            `;
+        }
+
+        function changeImage(thumbnail, src) {
+            document.getElementById('mainImage').src = src;
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumbnail.classList.add('active');
+        }
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('moveIn').min = today;
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const bookingData = {
+                pgName: currentPG.name,
+                pgLocation: getLocationString(currentPG),
+                rent: currentPG.rent,
+                guestName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                moveInDate: document.getElementById('moveIn').value,
+                occupancy: document.getElementById('occupancy').value,
+                message: document.getElementById('message').value,
+                bookingDate: new Date().toISOString()
+            };
+
+            localStorage.setItem('pgBookingData', JSON.stringify(bookingData));
+            window.location.href = 'payment.html';
+        });
+
+        window.addEventListener('DOMContentLoaded', loadPGDetails);
+    </script>
+    <div id="footer"></div>
+<script>
+  // Load the footer dynamically
+  fetch("footer.html")
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById("footer").innerHTML = data;
+    })
+    .catch(err => console.error("Error loading footer:", err));
+</script>
+</body>
+</html>

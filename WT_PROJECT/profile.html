@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - FindMyPG</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+    }
+    header {
+      background: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .header-content {
+      max-width: 1000px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo-section { display: flex; align-items: center; gap: 1rem; }
+    .logo {
+      height: 44px; width: 44px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 10px; color: #fff; font-size: 1.4rem;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold;
+    }
+    .logo-text {
+      font-weight: bold; font-size: 1.3rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .back-btn {
+      background: #f8f9fa; color: #333;
+      padding: 0.6rem 1.1rem; border-radius: 10px;
+      text-decoration: none; font-weight: 600;
+      border: 1.5px solid #e0e0e0; display: flex; align-items: center; gap: 0.5rem;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: #e9ecef; }
+    .back-btn:focus {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+    .container {
+      max-width: 950px; margin: 2rem auto; padding: 0 1rem;
+    }
+    .profile-grid {
+      display: flex; flex-wrap: wrap; gap: 2rem;
+    }
+    .profile-card, .form-card {
+      background: #fff; border-radius: 13px; box-shadow: 0 4px 18px rgba(0,0,0,0.09);
+      padding: 2rem; margin-bottom: 2rem;
+    }
+    .profile-card {
+      flex: 0 0 280px; text-align: center;
+    }
+    .profile-avatar {
+      width: 110px; height: 110px; border-radius: 50%;
+      margin: 0 auto 1.2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 2.6rem; font-weight: bold; position: relative; overflow: hidden;
+    }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-upload {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.6); color: #fff; font-size: 0.9rem;
+      padding: 0.4rem; cursor: pointer; opacity: 0; transition: opacity 0.3s;
+    }
+    .profile-avatar:hover .avatar-upload { opacity: 1;}
+    .avatar-upload input { 
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    .profile-name { font-size: 1.15rem; font-weight: 600; color: #333; margin-bottom: 0.25rem; }
+    .profile-email { color: #666; margin-bottom: 0.5rem; font-size: 0.95rem; }
+    .profile-role {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background: #e0e7ff;
+      color: #667eea;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .profile-stats {
+      display: flex; justify-content: center; gap: 1.3rem; margin: 1.2rem 0 0;
+    }
+    .stat-item { text-align: center; }
+    .stat-value { font-size: 1.11rem; font-weight: bold; color: #667eea; }
+    .stat-label { font-size: 0.9rem; color: #666; }
+
+    .form-card { flex: 1; }
+    .form-card h2 { font-size: 1.3rem; color: #444; margin-bottom: 1.1rem; }
+
+    .form-section { margin-bottom: 1.2rem; }
+    .form-row {
+      display: flex; gap: 1rem; margin-bottom: 1.1rem;
+      flex-wrap: wrap;
+    }
+    .form-group {
+      flex: 1; display: flex; flex-direction: column; margin-bottom: 0;
+      min-width: 110px;
+    }
+    .form-group.full-width { flex: 100%; }
+    .form-group label { font-weight: 600; color: #555; margin-bottom: 0.21rem; font-size: 0.98rem;}
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 0.65rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 7px; font-size: 1rem; font-family: inherit;
+      transition: border 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: #764ba2; 
+      outline: 2px solid #764ba2;
+      outline-offset: 2px;
+    }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    .form-actions {
+      display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap;
+    }
+    .btn {
+      padding: 0.78rem 1.4rem; border: none; border-radius: 8px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .btn:focus {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff;
+    }
+    .btn-primary:hover { opacity: 0.93;}
+    .btn-secondary { background: #f8f9fa; color: #444; border: 1.2px solid #e0e0e0;}
+    .btn-secondary:hover { background: #e9ecef;}
+    .btn-danger { background: #fee2e2; color: #dc2626; border: 1.2px solid #fecaca;}
+    .btn-danger:hover { background: #fecaca;}
+    .toast {
+      position: fixed; top: 90px; right: 2rem; background: #fff;
+      padding: 1rem 1.4rem; border-radius: 9px; box-shadow: 0 5px 18px rgba(0,0,0,0.18);
+      display: none; align-items: center; gap: 0.7rem; z-index: 1000;
+      min-width: 210px; animation: slideIn 0.24s;
+    }
+    .toast.active { display: flex; }
+    .toast.success { border-left: 4px solid #10b981; }
+    .toast.error { border-left: 4px solid #ef4444; }
+    .toast i { font-size: 1.22rem; }
+    .toast.success i { color: #10b981; }
+    .toast.error i { color: #ef4444; }
+    .toast-content { flex: 1; }
+    .toast-title { font-weight: 600; color: #444; margin-bottom: 0.15rem; }
+    .toast-message { color: #666; font-size: 0.94rem; }
+    .toast-close { cursor: pointer; color: #888; background: none; border: none; padding: 0; }
+    .toast-close:hover { color: #222; }
+    .toast-close:focus {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(55px);}
+      to { opacity: 1; transform: translateX(0);}
+    }
+    @media (max-width: 850px) {
+      .profile-grid { flex-direction: column; }
+      .profile-card, .form-card { max-width: 100%; margin: 0 auto 1.5rem; }
+    }
+    footer {
+      background: rgba(255,255,255,0.05); color: #fff;
+      text-align: center; padding: 1.2rem; margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo-section">
+        <div class="logo" role="img" aria-label="FindMyPG Logo">FM</div>
+        <div class="logo-text">FindMyPG</div>
+      </div>
+      <a href="#" id="backBtn" class="back-btn" aria-label="Go back to dashboard">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        <span>Back to Dashboard</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="profile-grid">
+      <aside class="profile-card" aria-label="Profile summary">
+        <div class="profile-avatar" id="profileAvatar">
+          <span id="avatarInitial" aria-hidden="true">PS</span>
+          <label class="avatar-upload" for="avatarInput">
+            <i class="fa-solid fa-camera" aria-hidden="true"></i> Change Photo
+            <input type="file" id="avatarInput" accept="image/*" aria-label="Upload profile photo">
+          </label>
+        </div>
+        <div class="profile-name" id="displayName">Loading...</div>
+        <div class="profile-email" id="displayEmail">Loading...</div>
+        <div class="profile-role" id="displayRole">User</div>
+        <div class="profile-stats" aria-label="Profile statistics">
+          <div class="stat-item">
+            <div class="stat-value" aria-label="Member since" id="memberSince">2025</div>
+            <div class="stat-label">Member Since</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" aria-label="Profile completeness" id="completeness">0%</div>
+            <div class="stat-label">Complete</div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="form-card">
+        <h2><i class="fa-solid fa-user-edit" aria-hidden="true"></i> Edit Profile</h2>
+        <form id="profileForm" novalidate>
+          <div class="form-section">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Full Name <span aria-label="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" required aria-required="true">
+              </div>
+              <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender">
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dob">
+              </div>
+              <div class="form-group">
+                <label for="occupation">Occupation</label>
+                <select id="occupation" name="occupation">
+                  <option value="">Select Occupation</option>
+                  <option value="student">Student</option>
+                  <option value="working">Working Professional</option>
+                  <option value="business">Business</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email Address <span aria-label="required">*</span></label>
+                <input type="email" id="email" name="email" required aria-required="true" readonly style="background: #f5f5f5;">
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="address">Address Line</label>
+                <input type="text" id="address" name="address">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city">
+              </div>
+              <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" id="state" name="state">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pincode">PIN Code</label>
+                <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" maxlength="6" inputmode="numeric" aria-describedby="pincode-help">
+                <span id="pincode-help" class="sr-only">Enter 6 digit PIN code</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="form-group full-width">
+              <label for="about">About Me</label>
+              <textarea id="about" name="about" placeholder="Tell us about yourself..."></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="resetForm()" aria-label="Reset form to original values">
+              <span>Reset</span>
+            </button>
+            <button type="submit" class="btn btn-primary" aria-label="Save profile changes">
+              <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> 
+              <span>Save Changes</span>
+            </button>
+          </div>
+        </form>
+        <div class="form-actions" style="margin-top: 0.8rem;">
+          <button type="button" class="btn btn-danger" onclick="deleteAccount()" aria-label="Delete account permanently">
+            <i class="fa-solid fa-trash" aria-hidden="true"></i> 
+            <span>Delete Account</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="alert" aria-live="polite" aria-atomic="true">
+    <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+    <div class="toast-content">
+      <div class="toast-title" id="toastTitle">Success</div>
+      <div class="toast-message" id="toastMessage">Profile updated successfully!</div>
+    </div>
+    <button class="toast-close" onclick="hideToast()" aria-label="Close notification">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <footer role="contentinfo">
+    &copy; 2025 FindMyPG. All rights reserved. | Making PG search simple and secure.
+  </footer>
+
+  <script>
+    let currentUser = null;
+    let userProfile = null;
+    let originalProfile = null;
+
+    // Check if user is logged in
+    function checkAuth() {
+      const userData = localStorage.getItem('currentUser');
+      if (!userData) {
+        alert('Please login to access your profile');
+        window.location.href = 'login.html';
+        return false;
+      }
+      currentUser = JSON.parse(userData);
+      return true;
+    }
+
+    // Set back button based on role
+    function setupBackButton() {
+      const backBtn = document.getElementById('backBtn');
+      if (currentUser.role === 'tenant') {
+        backBtn.href = 'user_dashboard.html';
+      } else if (currentUser.role === 'owner') {
+        backBtn.href = 'owner_dashboard.html';
+      } else if (currentUser.role === 'admin') {
+        backBtn.href = 'admin_dashboard.html';
+      }
+    }
+
+    // Load user profile from localStorage
+    function loadProfile() {
+      const profileKey = `profile_${currentUser.email}`;
+      const savedProfile = localStorage.getItem(profileKey);
+      
+      if (savedProfile) {
+        userProfile = JSON.parse(savedProfile);
+      } else {
+        // Create new profile from login data
+        userProfile = {
+          fullName: currentUser.name || '',
+          email: currentUser.email,
+          role: currentUser.role,
+          gender: '',
+          dob: '',
+          occupation: '',
+          phone: '',
+          address: '',
+          city: '',
+          state: '',
+          pincode: '',
+          about: '',
+          avatar: '',
+          joinDate: new Date().getFullYear()
+        };
+      }
+      
+      originalProfile = JSON.parse(JSON.stringify(userProfile));
+      displayProfile();
+    }
+
+    // Display profile data
+    function displayProfile() {
+      // Update form fields
+      document.getElementById('fullName').value = userProfile.fullName || '';
+      document.getElementById('gender').value = userProfile.gender || '';
+      document.getElementById('dob').value = userProfile.dob || '';
+      document.getElementById('occupation').value = userProfile.occupation || '';
+      document.getElementById('email').value = userProfile.email;
+      document.getElementById('phone').value = userProfile.phone || '';
+      document.getElementById('address').value = userProfile.address || '';
+      document.getElementById('city').value = userProfile.city || '';
+      document.getElementById('state').value = userProfile.state || '';
+      document.getElementById('pincode').value = userProfile.pincode || '';
+      document.getElementById('about').value = userProfile.about || '';
+
+      // Update display elements
+      document.getElementById('displayName').textContent = userProfile.fullName || currentUser.name || 'User';
+      document.getElementById('displayEmail').textContent = userProfile.email;
+      
+      // Update role badge
+      const roleText = userProfile.role === 'tenant' ? 'User' : 
+                      userProfile.role === 'owner' ? 'PG Owner' : 'Admin';
+      document.getElementById('displayRole').textContent = roleText;
+
+      // Update member since
+      document.getElementById('memberSince').textContent = userProfile.joinDate || new Date().getFullYear();
+
+      // Calculate and display profile completeness
+      const completeness = calculateCompleteness();
+      document.getElementById('completeness').textContent = completeness + '%';
+
+      // Update avatar
+      updateAvatar();
+    }
+
+    // Calculate profile completeness percentage
+    function calculateCompleteness() {
+      const fields = ['fullName', 'gender', 'dob', 'occupation', 'phone', 'address', 'city', 'state', 'pincode', 'about'];
+      const filledFields = fields.filter(field => userProfile[field] && userProfile[field].trim() !== '');
+      return Math.round((filledFields.length / fields.length) * 100);
+    }
+
+    // Update avatar display
+    function updateAvatar() {
+      const avatarDiv = document.getElementById('profileAvatar');
+      const name = userProfile.fullName || currentUser.name || 'User';
+      const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+      
+      if (userProfile.avatar) {
+        avatarDiv.innerHTML = `
+          <img src="${userProfile.avatar}" alt="Profile photo of ${name}">
+          <label class="avatar-upload" for="avatarInput">
+            <i class="fa-solid fa-camera" aria-hidden="true"></i> Change Photo
+            <input type="file" id="avatarInput" accept="image/*" aria-label="Upload profile photo">
+          </label>
+        `;
+      } else {
+        avatarDiv.innerHTML = `
+          <span id="avatarInitial" aria-hidden="true">${initials}</span>
+          <label class="avatar-upload" for="avatarInput">
+            <i class="fa-solid fa-camera" aria-hidden="true"></i> Change Photo
+            <input type="file" id="avatarInput" accept="image/*" aria-label="Upload profile photo">
+          </label>
+        `;
+      }
+      setupAvatarUpload();
+    }
+
+    // Setup avatar upload functionality
+    function setupAvatarUpload() {
+      const avatarInput = document.getElementById('avatarInput');
+      if (avatarInput) {
+        avatarInput.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            if (file.size > 2 * 1024 * 1024) {
+              showToast('error', 'File Too Large', 'Please select an image smaller than 2MB.');
+              return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              userProfile.avatar = e.target.result;
+              saveProfile();
+              updateAvatar();
+              showToast('success', 'Photo Updated', 'Your profile photo has been updated.');
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    }
+
+    // Save profile to localStorage
+    function saveProfile() {
+      const profileKey = `profile_${currentUser.email}`;
+      localStorage.setItem(profileKey, JSON.stringify(userProfile));
+      
+      // Also update currentUser name if changed
+      if (userProfile.fullName !== currentUser.name) {
+        currentUser.name = userProfile.fullName;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Update in users array
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const userIndex = users.findIndex(u => u.email === currentUser.email && u.role === currentUser.role);
+        if (userIndex !== -1) {
+          users[userIndex].name = userProfile.fullName;
+          localStorage.setItem('users', JSON.stringify(users));
+        }
+      }
+    }
+
+    // Handle form submission
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const fullName = document.getElementById('fullName').value.trim();
+      if (!fullName) {
+        showToast('error', 'Validation Error', 'Full name is required.');
+        return;
+      }
+
+      userProfile.fullName = fullName;
+      userProfile.gender = document.getElementById('gender').value;
+      userProfile.dob = document.getElementById('dob').value;
+      userProfile.occupation = document.getElementById('occupation').value;
+      userProfile.phone = document.getElementById('phone').value;
+      userProfile.address = document.getElementById('address').value;
+      userProfile.city = document.getElementById('city').value;
+      userProfile.state = document.getElementById('state').value;
+      userProfile.pincode = document.getElementById('pincode').value;
+      userProfile.about = document.getElementById('about').value;
+
+      saveProfile();
+      originalProfile = JSON.parse(JSON.stringify(userProfile));
+      displayProfile();
+      showToast('success', 'Profile Updated!', 'Your profile has been updated successfully.');
+    });
+
+    // Reset form
+    function resetForm() {
+      userProfile = JSON.parse(JSON.stringify(originalProfile));
+      displayProfile();
+      showToast('success', 'Form Reset', 'All changes have been discarded.');
+    }
+
+    // Delete account
+    function deleteAccount() {
+      if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+        // Remove profile
+        const profileKey = `profile_${currentUser.email}`;
+        localStorage.removeItem(profileKey);
+        
+        // Remove from users array
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const updatedUsers = users.filter(u => !(u.email === currentUser.email && u.role === currentUser.role));
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+        
+        // Clear current user
+        localStorage.removeItem('currentUser');
+        
+        showToast('error', 'Account Deleted', 'Your account has been deleted.');
+        setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+      }
+    }
+
+    // Show toast notification
+    function showToast(type, title, message) {
+      const toast = document.getElementById('toast');
+      const toastIcon = toast.querySelector('i:first-child');
+      toast.className = 'toast ' + type + ' active';
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastMessage').textContent = message;
+      toastIcon.className = (type === 'success')
+        ? 'fa-solid fa-circle-check'
+        : 'fa-solid fa-circle-xmark';
+      setTimeout(hideToast, 3500);
+    }
+
+    // Hide toast
+    function hideToast() { 
+      document.getElementById('toast').classList.remove('active'); 
+    }
+
+    // PIN code validation
+    document.getElementById('pincode').addEventListener('input', function() {
+      this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);
+    });
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      if (checkAuth()) {
+        setupBackButton();
+        loadProfile();
+      }
+    });
+  </script>
+</body>
+</html>

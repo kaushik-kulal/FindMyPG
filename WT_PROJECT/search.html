@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search PG | FindMyPG</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      padding: 1.5rem 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-content .material-icons {
+      font-size: 2.5rem;
+      color: #667eea;
+    }
+
+    .header-content h2 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .filters {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      animation: slideDown 0.5s ease;
+    }
+
+    .filters h3 {
+      color: #667eea;
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .filter-group label .material-icons {
+      font-size: 1.2rem;
+      color: #667eea;
+    }
+
+    .filter-group input,
+    .filter-group select {
+      padding: 0.75rem;
+      border-radius: 10px;
+      border: 2px solid #e0e0e0;
+      background: #f8f9fa;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .filter-group input:focus,
+    .filter-group select:focus {
+      border-color: #667eea;
+      outline: none;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .filter-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 0.9rem 2rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #333;
+      border: 2px solid #e0e0e0;
+    }
+
+    .btn-secondary:hover {
+      background: #e9ecef;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      color: white;
+    }
+
+    .results-header h3 {
+      font-size: 1.5rem;
+    }
+
+    .results-count {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .results {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .result-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.5s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    .card-image-container {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .result-card:hover .card-img {
+      transform: scale(1.1);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .card-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-content h3 {
+      color: #333;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .detail-item .material-icons {
+      font-size: 1.2rem;
+      color: #667eea;
+    }
+
+    .amenities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .amenity-tag {
+      background: #f0f4ff;
+      color: #667eea;
+      padding: 0.4rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .amenity-tag .material-icons {
+      font-size: 1rem;
+    }
+
+    .card-footer {
+      display: flex;
+      gap: 1rem;
+      margin-top: auto;
+    }
+
+    .view-link {
+      flex: 1;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.8rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .view-link:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      color: #666;
+    }
+
+    .no-results .material-icons {
+      font-size: 5rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+
+    .no-results h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .loading .material-icons {
+      font-size: 3rem;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0;
+      }
+
+      .header-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .filters {
+        padding: 1.5rem;
+      }
+
+      .filter-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .filter-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .card-details {
+        grid-template-columns: 1fr;
+      }
+
+      .card-footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <span class="material-icons">search</span>
+      <h2>Search PG Accommodations</h2>
+    </div>
+  </header>
+
+  <main>
+    <section class="filters">
+      <h3>
+        <span class="material-icons">tune</span>
+        Filter Your Search
+      </h3>
+      <form id="searchForm">
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label>
+              <span class="material-icons">location_on</span>
+              Location
+            </label>
+            <input type="text" id="location" placeholder="Enter city or area"/>
+          </div>
+          <div class="filter-group">
+            <label>
+              <span class="material-icons">paid</span>
+              Max Budget (₹/month)
+            </label>
+            <input type="number" id="budget" min="1000" step="500" placeholder="e.g., 10000"/>
+          </div>
+          <div class="filter-group">
+            <label>
+              <span class="material-icons">person</span>
+              Gender Preference
+            </label>
+            <select id="gender">
+              <option value="">Any</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Co-living">Co-living</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label>
+              <span class="material-icons">home</span>
+              Room Type
+            </label>
+            <select id="roomType">
+              <option value="">Any</option>
+              <option value="Single Room">Single Room</option>
+              <option value="Double Sharing">Double Sharing</option>
+              <option value="Triple Sharing">Triple Sharing</option>
+              <option value="Four Sharing">Four Sharing</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-actions">
+          <button type="button" class="btn btn-secondary" onclick="resetFilters()">
+            <span class="material-icons">refresh</span>
+            Reset
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <span class="material-icons">search</span>
+            Search
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <div class="results-header">
+      <h3>Available PGs</h3>
+      <div class="results-count" id="resultsCount">
+        <span id="countText">Loading...</span>
+      </div>
+    </div>
+
+    <section class="results" id="results"></section>
+  </main>
+
+  <script>
+    // Helper function to get location string
+    function getLocationString(pg) {
+      const parts = [];
+      if (pg.address && pg.address.trim()) parts.push(pg.address.trim());
+      if (pg.city && pg.city.trim()) parts.push(pg.city.trim());
+      if (pg.location && pg.location.trim() && !parts.includes(pg.location.trim())) {
+        parts.push(pg.location.trim());
+      }
+      return parts.length > 0 ? parts.join(', ') : 'Location not specified';
+    }
+
+    // Load PG listings from localStorage ONLY
+    let pgData = JSON.parse(localStorage.getItem("pgListings") || "[]");
+    let filteredData = [...pgData];
+
+    const amenityIcons = {
+      "wifi": "wifi",
+      "ac": "ac_unit",
+      "laundry": "local_laundry_service",
+      "parking": "local_parking",
+      "meals": "restaurant",
+      "tv": "tv"
+    };
+
+    function renderResults(data) {
+      const resultsEl = document.getElementById('results');
+      const countEl = document.getElementById('countText');
+      
+      if (data.length === 0) {
+        resultsEl.innerHTML = `
+          <div class="no-results">
+            <div class="material-icons">search_off</div>
+            <h3>No PGs Found</h3>
+            <p>No PG listings available yet. Owners can add their properties to get started!</p>
+          </div>
+        `;
+        countEl.textContent = 'No results found';
+        return;
+      }
+
+      countEl.textContent = `${data.length} result${data.length !== 1 ? 's' : ''} found`;
+
+      resultsEl.innerHTML = data.map((pg, index) => {
+        const imageUrl = pg.images && pg.images.length > 0 
+          ? pg.images[0] 
+          : 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&h=400&fit=crop';
+        
+        const displayLocation = getLocationString(pg);
+        
+        return `
+        <div class="result-card">
+          <div class="card-image-container">
+            <img src="${imageUrl}" alt="${pg.name || 'PG'}" class="card-img" onerror="this.src='https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&h=400&fit=crop'">
+            <div class="card-badge">₹${parseInt(pg.rent || 0).toLocaleString()}/mo</div>
+          </div>
+          <div class="card-content">
+            <h3>${pg.name || 'Unnamed PG'}</h3>
+            <div class="card-details">
+              <div class="detail-item">
+                <span class="material-icons">location_on</span>
+                ${displayLocation}
+              </div>
+              <div class="detail-item">
+                <span class="material-icons">person</span>
+                ${pg.gender || 'Any'}
+              </div>
+              <div class="detail-item">
+                <span class="material-icons">home</span>
+                ${pg.roomType || 'N/A'}
+              </div>
+              <div class="detail-item">
+                <span class="material-icons">phone</span>
+                ${pg.contact || 'Not provided'}
+              </div>
+            </div>
+            ${pg.amenities && pg.amenities.length > 0 ? `
+            <div class="amenities">
+              ${pg.amenities.slice(0, 4).map(amenity => `
+                <span class="amenity-tag">
+                  <span class="material-icons">${amenityIcons[amenity.toLowerCase()] || 'check_circle'}</span>
+                  ${amenity}
+                </span>
+              `).join('')}
+              ${pg.amenities.length > 4 ? `<span class="amenity-tag">+${pg.amenities.length - 4} more</span>` : ''}
+            </div>
+            ` : ''}
+            <div class="card-footer">
+              <a class="view-link" href="pg-details.html?index=${index}">
+                <span class="material-icons">visibility</span>
+                View Details
+              </a>
+            </div>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    function applyFilters() {
+      const location = document.getElementById('location').value.toLowerCase();
+      const budget = document.getElementById('budget').value;
+      const gender = document.getElementById('gender').value;
+      const roomType = document.getElementById('roomType').value;
+
+      filteredData = pgData.filter(pg => {
+        const pgLocation = getLocationString(pg).toLowerCase();
+        const matchLocation = !location || pgLocation.includes(location);
+        const matchBudget = !budget || parseInt(pg.rent || 0) <= parseInt(budget);
+        const matchGender = !gender || pg.gender === gender;
+        const matchRoomType = !roomType || pg.roomType === roomType;
+
+        return matchLocation && matchBudget && matchGender && matchRoomType;
+      });
+
+      const resultsEl = document.getElementById('results');
+      resultsEl.innerHTML = `
+        <div class="loading">
+          <div class="material-icons">refresh</div>
+          <p>Searching for perfect PGs...</p>
+        </div>
+      `;
+
+      setTimeout(() => {
+        renderResults(filteredData);
+      }, 500);
+    }
+
+    function resetFilters() {
+      document.getElementById('searchForm').reset();
+      filteredData = [...pgData];
+      renderResults(filteredData);
+    }
+
+    document.getElementById('searchForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      applyFilters();
+    });
+
+    // Initial render
+    renderResults(pgData);
+
+    // Refresh data when page becomes visible
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        pgData = JSON.parse(localStorage.getItem("pgListings") || "[]");
+        filteredData = [...pgData];
+        renderResults(filteredData);
+      }
+    });
+  </script>
+</body>
+</html>
